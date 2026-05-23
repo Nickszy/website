@@ -57,7 +57,7 @@ claude 或者codex能力确实很强，但是对于文字工作者来说，直�
 
 ## 当前状态
 
-- [x] 第一篇：入门篇 ✅
+- [ ] 第一篇：入门篇
 - [ ] 第二篇：基础篇
 - [ ] 第三篇：进阶篇
 - [ ] 第四篇：实战篇
@@ -75,8 +75,5 @@ claude 或者codex能力确实很强，但是对于文字工作者来说，直�
 - [Zettelkasten 方法论](https://zettelkasten.de/)
 
 ---
-
-**相关笔记：**
-- [[obsidian-claudian-01-入门篇]] - 第一篇文章
 
 #知识管理 #Obsidian #Claudian #写作工具
