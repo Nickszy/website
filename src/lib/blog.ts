@@ -66,35 +66,37 @@ export function getAllTags(): string[] {
   return Array.from(tagSet).sort();
 }
 
-export function getAllSeries(): string[] {
-  const posts = getAllPosts();
-  const seriesSet = new Set<string>();
-  posts.forEach((post) => {
-    if (post.series) {
-      seriesSet.add(post.series);
-    }
-  });
-  return Array.from(seriesSet).sort();
-}
-
-export type CategoryTree = {
-  [category: string]: string[];
+export type BlogMetadata = {
+  series: Record<string, number>;
+  tags: Record<string, number>;
+  totalPosts: number;
 };
 
-export function getCategoryTree(): CategoryTree {
+export function getBlogMetadata(): BlogMetadata {
   const posts = getAllPosts();
-  const tree: Record<string, Set<string>> = {};
+  const series: Record<string, number> = {};
+  const tags: Record<string, number> = {};
   
   posts.forEach((post) => {
-    if (!tree[post.category]) {
-      tree[post.category] = new Set();
+    if (post.series) {
+      series[post.series] = (series[post.series] || 0) + 1;
     }
-    post.tags.forEach((tag) => tree[post.category].add(tag));
+    post.tags.forEach((tag) => {
+      tags[tag] = (tags[tag] || 0) + 1;
+    });
   });
 
-  const result: CategoryTree = {};
-  Object.keys(tree).sort().forEach((cat) => {
-    result[cat] = Array.from(tree[cat]).sort();
-  });
-  return result;
+  // Sort by count descending
+  const sortedSeries = Object.fromEntries(
+    Object.entries(series).sort(([, a], [, b]) => b - a)
+  );
+  const sortedTags = Object.fromEntries(
+    Object.entries(tags).sort(([, a], [, b]) => b - a)
+  );
+
+  return {
+    series: sortedSeries,
+    tags: sortedTags,
+    totalPosts: posts.length,
+  };
 }

@@ -31,14 +31,14 @@ export const metadata: Metadata = {
   },
 };
 
-import { getCategoryTree } from "@/lib/blog";
+import { getBlogMetadata } from "@/lib/blog";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categoryTree = getCategoryTree();
+  const blogMetadata = getBlogMetadata();
 
   return (
     <html
@@ -46,7 +46,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Header categoryTree={categoryTree} />
+        <Header blogMetadata={blogMetadata} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

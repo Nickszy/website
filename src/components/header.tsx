@@ -2,47 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 
-type CategoryTree = {
-  [category: string]: string[];
+type BlogMetadata = {
+  series: Record<string, number>;
+  tags: Record<string, number>;
+  totalPosts: number;
 };
 
-type NavLink = {
-  href?: string;
-  label: string;
-  subLinks?: { href?: string; label: string; isHeader?: boolean }[];
-};
-
-export function Header({ categoryTree }: { categoryTree?: CategoryTree }) {
+export function Header({ blogMetadata }: { blogMetadata?: BlogMetadata }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navLinks = useMemo<NavLink[]>(() => {
-    const blogSubLinks: { href?: string; label: string; isHeader?: boolean }[] = [
-      { href: "/blog", label: "全部文章" }
-    ];
-
-    if (categoryTree) {
-      Object.entries(categoryTree).forEach(([category, tags]) => {
-        blogSubLinks.push({ label: category, isHeader: true });
-        tags.forEach((tag) => {
-          blogSubLinks.push({ href: `/blog?category=${tag}`, label: tag });
-        });
-      });
-    }
-
-    return [
-      { href: "/", label: "首页" },
-      {
-        label: "博客",
-        subLinks: blogSubLinks,
-      },
-      { href: "/apps", label: "应用" },
-      { href: "/about", label: "关于" },
-    ];
-  }, [categoryTree]);
+  const seriesEntries = blogMetadata ? Object.entries(blogMetadata.series) : [];
+  const tagEntries = blogMetadata ? Object.entries(blogMetadata.tags) : [];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -54,57 +28,103 @@ export function Header({ categoryTree }: { categoryTree?: CategoryTree }) {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 sm:flex">
-          {navLinks.map((link) =>
-            link.subLinks ? (
-              <div key={link.label} className="group relative">
-                <button
-                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                    pathname === "/blog" || pathname.startsWith("/blog/")
-                      ? "text-accent bg-accent/10"
-                      : "text-muted hover:bg-card-hover hover:text-foreground"
-                  }`}
+          <Link
+            href="/"
+            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              pathname === "/"
+                ? "bg-accent/10 text-accent"
+                : "text-muted hover:bg-card-hover hover:text-foreground"
+            }`}
+          >
+            首页
+          </Link>
+
+          <div className="group relative">
+            <Link
+              href="/blog"
+              className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                pathname === "/blog" || pathname.startsWith("/blog/")
+                  ? "text-accent bg-accent/10"
+                  : "text-muted hover:bg-card-hover hover:text-foreground"
+              }`}
+            >
+              博客
+              <ChevronDown
+                size={14}
+                className="transition-transform group-hover:rotate-180"
+              />
+            </Link>
+            <div className="absolute left-0 top-full mt-1 hidden w-[420px] grid-cols-2 gap-4 rounded-xl border border-border bg-card p-4 shadow-lg group-hover:grid">
+              {/* Column 1: Series */}
+              <div className="flex flex-col gap-1">
+                <Link
+                  href="/blog"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent/10 hover:text-accent"
                 >
-                  {link.label}
-                  <ChevronDown
-                    size={14}
-                    className="transition-transform group-hover:rotate-180"
-                  />
-                </button>
-                <div className="absolute left-0 top-full mt-1 hidden w-48 flex-col rounded-xl border border-border bg-card p-2 shadow-lg group-hover:flex">
-                  {link.subLinks.map((sub, index) =>
-                    sub.isHeader ? (
-                      <div
-                        key={`header-${index}`}
-                        className="px-3 py-1.5 mt-1 text-xs font-semibold text-foreground/40 uppercase tracking-wider"
-                      >
-                        {sub.label}
-                      </div>
-                    ) : (
+                  全部文章 <span className="opacity-50 font-normal">({blogMetadata?.totalPosts || 0})</span>
+                </Link>
+                {seriesEntries.length > 0 && (
+                  <>
+                    <div className="mt-3 px-3 py-1 text-xs font-semibold text-foreground/40 uppercase tracking-wider">
+                      系列
+                    </div>
+                    {seriesEntries.map(([name, count]) => (
                       <Link
-                        key={sub.href}
-                        href={sub.href!}
-                        className="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-accent/10 hover:text-accent"
+                        key={name}
+                        href={`/blog?series=${encodeURIComponent(name)}`}
+                        className="rounded-md px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-accent/10 hover:text-accent"
                       >
-                        {sub.label}
+                        {name} <span className="opacity-50 font-normal text-xs">({count})</span>
                       </Link>
-                    )
-                  )}
-                </div>
+                    ))}
+                  </>
+                )}
               </div>
-            ) : (
-              <Link
-                key={link.href}
-                href={link.href!}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  pathname === link.href
-                    ? "bg-accent/10 text-accent"
-                    : "text-muted hover:bg-card-hover hover:text-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            )
-          )}
+
+              {/* Column 2: Tags */}
+              <div className="flex flex-col gap-1">
+                {tagEntries.length > 0 && (
+                  <>
+                    <div className="px-3 py-1 text-xs font-semibold text-foreground/40 uppercase tracking-wider">
+                      标签
+                    </div>
+                    <div className="flex flex-wrap gap-1 px-3">
+                      {tagEntries.map(([name, count]) => (
+                        <Link
+                          key={name}
+                          href={`/blog?category=${encodeURIComponent(name)}`}
+                          className="rounded-md bg-muted/10 border border-border px-2 py-1 text-xs font-medium text-muted transition-colors hover:border-accent/30 hover:text-accent"
+                        >
+                          {name} <span className="opacity-50">({count})</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <Link
+            href="/apps"
+            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              pathname === "/apps"
+                ? "bg-accent/10 text-accent"
+                : "text-muted hover:bg-card-hover hover:text-foreground"
+            }`}
+          >
+            应用
+          </Link>
+          <Link
+            href="/about"
+            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              pathname === "/about"
+                ? "bg-accent/10 text-accent"
+                : "text-muted hover:bg-card-hover hover:text-foreground"
+            }`}
+          >
+            关于
+          </Link>
         </nav>
 
         {/* Mobile menu button */}
@@ -120,49 +140,48 @@ export function Header({ categoryTree }: { categoryTree?: CategoryTree }) {
       {/* Mobile nav */}
       {mobileOpen && (
         <nav className="flex flex-col gap-1 border-t border-border px-4 pb-4 pt-2 sm:hidden">
-          {navLinks.map((link) =>
-            link.subLinks ? (
-              <div key={link.label} className="flex flex-col">
-                <div className="px-3 py-2 text-sm font-medium text-foreground">
-                  {link.label}
-                </div>
-                <div className="ml-4 flex flex-col gap-1 border-l border-border pl-2">
-                  {link.subLinks.map((sub, index) =>
-                    sub.isHeader ? (
-                      <div
-                        key={`m-header-${index}`}
-                        className="px-3 py-1 mt-2 text-xs font-semibold text-foreground/40 uppercase tracking-wider"
-                      >
-                        {sub.label}
-                      </div>
-                    ) : (
-                      <Link
-                        key={sub.href}
-                        href={sub.href!}
-                        onClick={() => setMobileOpen(false)}
-                        className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
-                      >
-                        {sub.label}
-                      </Link>
-                    )
-                  )}
-                </div>
-              </div>
-            ) : (
-              <Link
-                key={link.href}
-                href={link.href!}
-                onClick={() => setMobileOpen(false)}
-                className={`block rounded-lg px-3 py-2 text-sm font-medium ${
-                  pathname === link.href
-                    ? "bg-accent/10 text-accent"
-                    : "text-muted hover:bg-card-hover hover:text-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            )
-          )}
+          <Link
+            href="/"
+            onClick={() => setMobileOpen(false)}
+            className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
+          >
+            首页
+          </Link>
+          <div className="flex flex-col">
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
+            >
+              博客
+            </Link>
+            <div className="ml-4 flex flex-col gap-1 border-l border-border pl-2 pb-2">
+              {seriesEntries.map(([name, count]) => (
+                <Link
+                  key={name}
+                  href={`/blog?series=${encodeURIComponent(name)}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
+                >
+                  {name} <span className="opacity-50 text-xs">({count})</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <Link
+            href="/apps"
+            onClick={() => setMobileOpen(false)}
+            className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
+          >
+            应用
+          </Link>
+          <Link
+            href="/about"
+            onClick={() => setMobileOpen(false)}
+            className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
+          >
+            关于
+          </Link>
         </nav>
       )}
     </header>
