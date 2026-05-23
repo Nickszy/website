@@ -11,6 +11,8 @@ export interface BlogPost {
   description: string;
   category: string;
   tags: string[];
+  series?: string;
+  draft?: boolean;
   content: string;
   readingTime: string;
 }
@@ -23,7 +25,7 @@ export function getAllPosts(): BlogPost[] {
   const files = fs.readdirSync(postsDirectory);
   const mdxFiles = files.filter((file) => file.endsWith(".mdx") || file.endsWith(".md"));
 
-  const posts = mdxFiles.map((file) => {
+  let posts = mdxFiles.map((file) => {
     const slug = file.replace(/\.mdx?$/, "");
     const fullPath = path.join(postsDirectory, file);
     const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -39,10 +41,14 @@ export function getAllPosts(): BlogPost[] {
       description: data.description || "",
       category: data.category || "随笔",
       tags: data.tags || [],
+      series: data.series,
+      draft: data.draft || false,
       content,
       readingTime,
     };
   });
+
+  posts = posts.filter((post) => !post.draft);
 
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }

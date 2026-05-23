@@ -83,23 +83,28 @@ export default async function BlogPostPage({
           <span>{post.readingTime}</span>
         </div>
         <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
+          {post.draft && <span className="text-yellow-600 mr-2">[草稿]</span>}
           {post.title}
         </h1>
         {post.description && (
           <p className="mt-4 text-lg text-muted">{post.description}</p>
         )}
-        {post.tags.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-md bg-accent/10 px-2 py-0.5 text-xs text-accent"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+        
+        <div className="mt-4 flex flex-wrap gap-1.5 items-center">
+          {post.series && (
+            <span className="rounded-md border border-accent/20 bg-accent/5 px-2 py-0.5 text-xs text-accent font-medium">
+              📚 系列：{post.series}
+            </span>
+          )}
+          {post.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-md bg-muted/10 px-2 py-0.5 text-xs text-muted-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
       </header>
 
       <div

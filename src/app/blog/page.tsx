@@ -60,23 +60,28 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
                 <span>{post.readingTime}</span>
               </div>
               <h2 className="text-lg font-semibold group-hover:text-accent sm:text-xl">
+                {post.draft && <span className="text-yellow-600 mr-2">[草稿]</span>}
                 {post.title}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 {post.description}
               </p>
-              {post.tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md bg-accent/10 px-2 py-0.5 text-xs text-accent"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+              
+              <div className="mt-3 flex flex-wrap gap-1.5 items-center">
+                {post.series && (
+                  <span className="rounded-md border border-accent/20 bg-accent/5 px-2 py-0.5 text-xs text-accent font-medium">
+                    📚 系列：{post.series}
+                  </span>
+                )}
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md bg-muted/10 px-2 py-0.5 text-xs text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </Link>
           ))}
         </div>
