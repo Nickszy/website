@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllPosts, getAllTags } from "@/lib/blog";
+import { getAllPosts, getAllSeries } from "@/lib/blog";
 import { BookOpen } from "lucide-react";
 
 export const metadata = {
@@ -7,13 +7,16 @@ export const metadata = {
   description: "投资理财思考、AI工具实践、效率方法论",
 };
 
-export default async function BlogPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
-  const { category } = await searchParams;
+export default async function BlogPage({ searchParams }: { searchParams: Promise<{ category?: string, series?: string }> }) {
+  const { category, series } = await searchParams;
   let posts = getAllPosts();
   if (category) {
     posts = posts.filter(post => post.tags.includes(category));
   }
-  const tags = getAllTags();
+  if (series) {
+    posts = posts.filter(post => post.series === series);
+  }
+  const allSeries = getAllSeries();
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
@@ -26,24 +29,32 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
         </p>
       </div>
 
-      {/* Tags */}
-      {tags.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <Link
-              key={tag}
-              href={`/blog?category=${tag}`}
-              className={`rounded-lg border px-3 py-1 text-sm transition-colors ${
-                category === tag
-                  ? "border-accent bg-accent/10 text-accent"
-                  : "border-border bg-card text-muted hover:border-accent/30 hover:text-accent"
-              }`}
-            >
-              {tag}
-            </Link>
-          ))}
-        </div>
-      )}
+      {/* Series Filters */}
+      <div className="mb-8 flex flex-wrap gap-2">
+        <Link
+          href="/blog"
+          className={`rounded-lg border px-3 py-1 text-sm transition-colors ${
+            !series && !category
+              ? "border-accent bg-accent/10 text-accent"
+              : "border-border bg-card text-muted hover:border-accent/30 hover:text-accent"
+          }`}
+        >
+          全部
+        </Link>
+        {allSeries.map((s) => (
+          <Link
+            key={s}
+            href={`/blog?series=${encodeURIComponent(s)}`}
+            className={`rounded-lg border px-3 py-1 text-sm transition-colors ${
+              series === s
+                ? "border-accent bg-accent/10 text-accent"
+                : "border-border bg-card text-muted hover:border-accent/30 hover:text-accent"
+            }`}
+          >
+            {s}
+          </Link>
+        ))}
+      </div>
 
       {/* Posts */}
       {posts.length > 0 ? (

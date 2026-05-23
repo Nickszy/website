@@ -66,6 +66,17 @@ export function getAllTags(): string[] {
   return Array.from(tagSet).sort();
 }
 
+export function getAllSeries(): string[] {
+  const posts = getAllPosts();
+  const seriesSet = new Set<string>();
+  posts.forEach((post) => {
+    if (post.series) {
+      seriesSet.add(post.series);
+    }
+  });
+  return Array.from(seriesSet).sort();
+}
+
 export type CategoryTree = {
   [category: string]: string[];
 };
