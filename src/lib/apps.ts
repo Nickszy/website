@@ -16,7 +16,7 @@ export const apps: AppItem[] = [
     title: "KOL LLM Wiki 分析",
     description: "基于大语言模型（LLM）的 KOL 影响力百科库与深度分析工具。",
     icon: "🧠",
-    url: "https://app.nicksyz.com",
+    url: "https://app.nickszy.com",
     tags: ["AI", "大模型", "数据分析"],
     status: "live",
     pricing: "Free",
