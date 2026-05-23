@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllPosts, getAllSeries } from "@/lib/blog";
+import { getAllPosts, getBlogMetadata } from "@/lib/blog";
 import { BookOpen } from "lucide-react";
 
 export const metadata = {
@@ -16,7 +16,8 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
   if (series) {
     posts = posts.filter(post => post.series === series);
   }
-  const allSeries = getAllSeries();
+  const { series: seriesData } = getBlogMetadata();
+  const allSeries = Object.keys(seriesData);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
