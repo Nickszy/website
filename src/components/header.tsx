@@ -16,9 +16,16 @@ const navLinks: NavLink[] = [
   {
     label: "投资",
     subLinks: [
-      { href: "/blog?category=funds", label: "基金" },
-      { href: "/blog?category=us-hk-stocks", label: "港美股" },
-      { href: "/blog?category=industry", label: "行业分析" },
+      { href: "/blog?category=基金", label: "基金" },
+      { href: "/blog?category=港美股", label: "港美股" },
+      { href: "/blog?category=行业分析", label: "行业分析" },
+    ],
+  },
+  {
+    label: "AI 实践",
+    subLinks: [
+      { href: "/blog?category=AI工具", label: "AI 工具" },
+      { href: "/blog?category=大模型", label: "大模型" },
     ],
   },
   { href: "/blog", label: "博客" },

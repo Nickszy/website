@@ -7,14 +7,20 @@ export const metadata = {
   description: "投资理财思考、AI工具实践、效率方法论",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+  const { category } = await searchParams;
+  let posts = getAllPosts();
+  if (category) {
+    posts = posts.filter(post => post.tags.includes(category));
+  }
   const tags = getAllTags();
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
       <div className="mb-12">
-        <h1 className="text-3xl font-bold sm:text-4xl">博客</h1>
+        <h1 className="text-3xl font-bold sm:text-4xl">
+          {category ? `${category}` : "博客"}
+        </h1>
         <p className="mt-3 text-muted">
           投资理财思考、AI工具实践、效率方法论
         </p>
@@ -24,12 +30,17 @@ export default function BlogPage() {
       {tags.length > 0 && (
         <div className="mb-8 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <span
+            <Link
               key={tag}
-              className="rounded-lg border border-border bg-card px-3 py-1 text-sm text-muted hover:border-accent/30 hover:text-accent"
+              href={`/blog?category=${tag}`}
+              className={`rounded-lg border px-3 py-1 text-sm transition-colors ${
+                category === tag
+                  ? "border-accent bg-accent/10 text-accent"
+                  : "border-border bg-card text-muted hover:border-accent/30 hover:text-accent"
+              }`}
             >
               {tag}
-            </span>
+            </Link>
           ))}
         </div>
       )}
