@@ -8,27 +8,24 @@ import { Menu, X, ChevronDown } from "lucide-react";
 type NavLink = {
   href?: string;
   label: string;
-  subLinks?: { href: string; label: string }[];
+  subLinks?: { href?: string; label: string; isHeader?: boolean }[];
 };
 
 const navLinks: NavLink[] = [
   { href: "/", label: "首页" },
   {
-    label: "投资",
+    label: "博客",
     subLinks: [
+      { href: "/blog", label: "全部文章" },
+      { label: "投资理财", isHeader: true },
       { href: "/blog?category=基金", label: "基金" },
       { href: "/blog?category=港美股", label: "港美股" },
       { href: "/blog?category=行业分析", label: "行业分析" },
-    ],
-  },
-  {
-    label: "AI 实践",
-    subLinks: [
+      { label: "AI 实践", isHeader: true },
       { href: "/blog?category=AI工具", label: "AI 工具" },
       { href: "/blog?category=大模型", label: "大模型" },
     ],
   },
-  { href: "/blog", label: "博客" },
   { href: "/apps", label: "应用" },
   { href: "/about", label: "关于" },
 ];
@@ -50,23 +47,38 @@ export function Header() {
           {navLinks.map((link) =>
             link.subLinks ? (
               <div key={link.label} className="group relative">
-                <button className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-card-hover hover:text-foreground">
+                <button
+                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    pathname === "/blog" || pathname.startsWith("/blog/")
+                      ? "text-accent bg-accent/10"
+                      : "text-muted hover:bg-card-hover hover:text-foreground"
+                  }`}
+                >
                   {link.label}
                   <ChevronDown
                     size={14}
                     className="transition-transform group-hover:rotate-180"
                   />
                 </button>
-                <div className="absolute left-0 top-full mt-1 hidden w-40 flex-col rounded-xl border border-border bg-card p-2 shadow-lg group-hover:flex">
-                  {link.subLinks.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      className="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-accent/10 hover:text-accent"
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
+                <div className="absolute left-0 top-full mt-1 hidden w-48 flex-col rounded-xl border border-border bg-card p-2 shadow-lg group-hover:flex">
+                  {link.subLinks.map((sub, index) =>
+                    sub.isHeader ? (
+                      <div
+                        key={`header-${index}`}
+                        className="px-3 py-1.5 mt-1 text-xs font-semibold text-foreground/40 uppercase tracking-wider"
+                      >
+                        {sub.label}
+                      </div>
+                    ) : (
+                      <Link
+                        key={sub.href}
+                        href={sub.href!}
+                        className="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-accent/10 hover:text-accent"
+                      >
+                        {sub.label}
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
             ) : (
@@ -105,16 +117,25 @@ export function Header() {
                   {link.label}
                 </div>
                 <div className="ml-4 flex flex-col gap-1 border-l border-border pl-2">
-                  {link.subLinks.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
+                  {link.subLinks.map((sub, index) =>
+                    sub.isHeader ? (
+                      <div
+                        key={`m-header-${index}`}
+                        className="px-3 py-1 mt-2 text-xs font-semibold text-foreground/40 uppercase tracking-wider"
+                      >
+                        {sub.label}
+                      </div>
+                    ) : (
+                      <Link
+                        key={sub.href}
+                        href={sub.href!}
+                        onClick={() => setMobileOpen(false)}
+                        className="block rounded-lg px-3 py-2 text-sm font-medium text-muted hover:bg-card-hover hover:text-foreground"
+                      >
+                        {sub.label}
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
             ) : (
