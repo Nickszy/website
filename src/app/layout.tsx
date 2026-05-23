@@ -31,18 +31,22 @@ export const metadata: Metadata = {
   },
 };
 
+import { getCategoryTree } from "@/lib/blog";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const categoryTree = getCategoryTree();
+
   return (
     <html
       lang="zh-CN"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Header />
+        <Header categoryTree={categoryTree} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

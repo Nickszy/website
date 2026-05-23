@@ -1,0 +1,24 @@
+{
+  "id": "conv-1779521819576-qjgd7r80j",
+  "providerId": "claude",
+  "title": "Write Obsidian Claude AI Documentation Series",
+  "titleGenerationStatus": "success",
+  "createdAt": 1779521819577,
+  "updatedAt": 1779521866692,
+  "lastResponseAt": 1779521866692,
+  "sessionId": "80fb6ce3-f51c-4431-a012-4c85326e23f9",
+  "providerState": {
+    "providerSessionId": "80fb6ce3-f51c-4431-a012-4c85326e23f9"
+  },
+  "currentNote": "blog/知识大脑-obsidian.md",
+  "usage": {
+    "model": "haiku",
+    "inputTokens": 278,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 61504,
+    "contextWindow": 200000,
+    "contextTokens": 61782,
+    "percentage": 31,
+    "contextWindowIsAuthoritative": true
+  }
+}

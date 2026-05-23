@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+
+type CategoryTree = {
+  [category: string]: string[];
+};
 
 type NavLink = {
   href?: string;
@@ -11,28 +15,34 @@ type NavLink = {
   subLinks?: { href?: string; label: string; isHeader?: boolean }[];
 };
 
-const navLinks: NavLink[] = [
-  { href: "/", label: "首页" },
-  {
-    label: "博客",
-    subLinks: [
-      { href: "/blog", label: "全部文章" },
-      { label: "投资理财", isHeader: true },
-      { href: "/blog?category=基金", label: "基金" },
-      { href: "/blog?category=港美股", label: "港美股" },
-      { href: "/blog?category=行业分析", label: "行业分析" },
-      { label: "AI 实践", isHeader: true },
-      { href: "/blog?category=AI工具", label: "AI 工具" },
-      { href: "/blog?category=大模型", label: "大模型" },
-    ],
-  },
-  { href: "/apps", label: "应用" },
-  { href: "/about", label: "关于" },
-];
-
-export function Header() {
+export function Header({ categoryTree }: { categoryTree?: CategoryTree }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = useMemo<NavLink[]>(() => {
+    const blogSubLinks: { href?: string; label: string; isHeader?: boolean }[] = [
+      { href: "/blog", label: "全部文章" }
+    ];
+
+    if (categoryTree) {
+      Object.entries(categoryTree).forEach(([category, tags]) => {
+        blogSubLinks.push({ label: category, isHeader: true });
+        tags.forEach((tag) => {
+          blogSubLinks.push({ href: `/blog?category=${tag}`, label: tag });
+        });
+      });
+    }
+
+    return [
+      { href: "/", label: "首页" },
+      {
+        label: "博客",
+        subLinks: blogSubLinks,
+      },
+      { href: "/apps", label: "应用" },
+      { href: "/about", label: "关于" },
+    ];
+  }, [categoryTree]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">

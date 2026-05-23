@@ -11,10 +11,14 @@
             "id": "a40aca8121dc2827",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "blog/知识大脑-obsidian.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "知识大脑-obsidian"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "blog/知识大脑-obsidian.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "反向链接"
+              "title": "知识大脑-obsidian 的反向链接列表"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "blog/知识大脑-obsidian.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "出链"
+              "title": "知识大脑-obsidian 的出链列表"
             }
           },
           {
@@ -150,20 +156,31 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "blog/知识大脑-obsidian.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "大纲"
+              "title": "知识大脑-obsidian 的大纲"
+            }
+          },
+          {
+            "id": "8f0217627f2c69d9",
+            "type": "leaf",
+            "state": {
+              "type": "claudian-view",
+              "state": {},
+              "icon": "bot",
+              "title": "Claudian"
             }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 444.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -173,11 +190,22 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false
+      "bases:新建数据库": false,
+      "obsidian42-brat:BRAT": false,
+      "realclaudian:Open Claudian": false
     }
   },
-  "active": "a40aca8121dc2827",
+  "active": "8f0217627f2c69d9",
   "lastOpenFiles": [
+    "blog/知识大脑-obsidian.md.tmp.30168.a8fbc7f2908d",
+    "blog/obsidian-claudian-01-入门篇.md",
+    "blog/obsidian-claudian-01-入门篇.md.tmp.30168.f372443b6106",
+    "blog/知识大脑-obsidian.md.tmp.30168.f1dd6523234a",
+    "apps/ai-research.md",
+    "blog/知识大脑-obsidian.md",
+    "apps/catalyst-calendar.md",
+    "apps/kol-llm-wiki.md",
+    "apps/portfolio-tracker.md",
     "blog/obsidian-ai-workflow.mdx"
   ]
 }

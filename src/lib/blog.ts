@@ -9,6 +9,7 @@ export interface BlogPost {
   title: string;
   date: string;
   description: string;
+  category: string;
   tags: string[];
   content: string;
   readingTime: string;
@@ -36,6 +37,7 @@ export function getAllPosts(): BlogPost[] {
       title: data.title || slug,
       date: data.date || new Date().toISOString(),
       description: data.description || "",
+      category: data.category || "随笔",
       tags: data.tags || [],
       content,
       readingTime,
@@ -55,4 +57,26 @@ export function getAllTags(): string[] {
   const tagSet = new Set<string>();
   posts.forEach((post) => post.tags.forEach((tag) => tagSet.add(tag)));
   return Array.from(tagSet).sort();
+}
+
+export type CategoryTree = {
+  [category: string]: string[];
+};
+
+export function getCategoryTree(): CategoryTree {
+  const posts = getAllPosts();
+  const tree: Record<string, Set<string>> = {};
+  
+  posts.forEach((post) => {
+    if (!tree[post.category]) {
+      tree[post.category] = new Set();
+    }
+    post.tags.forEach((tag) => tree[post.category].add(tag));
+  });
+
+  const result: CategoryTree = {};
+  Object.keys(tree).sort().forEach((cat) => {
+    result[cat] = Array.from(tree[cat]).sort();
+  });
+  return result;
 }
