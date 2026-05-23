@@ -21,38 +21,5 @@ export const apps: AppItem[] = [
     status: "live",
     pricing: "Free",
     projectType: "Web App"
-  },
-  {
-    slug: "catalyst-calendar",
-    title: "催化剂日历",
-    description: "投资事件日历，追踪可能影响市场的重要事件与催化剂。",
-    icon: "📅",
-    url: "https://example.com",
-    tags: ["投资", "日历"],
-    status: "live",
-    pricing: "Free",
-    projectType: "Web App"
-  },
-  {
-    slug: "portfolio-tracker",
-    title: "组合追踪",
-    description: "个人投资组合追踪与管理工具，实时查看资产配置。",
-    icon: "💼",
-    url: "https://github.com/yourusername/portfolio-tracker",
-    tags: ["投资", "工具"],
-    status: "beta",
-    pricing: "Freemium",
-    projectType: "GitHub"
-  },
-  {
-    slug: "ai-research",
-    title: "AI 投研助手",
-    description: "基于 AI 的投资研究辅助工具，快速分析财报与研报。",
-    icon: "🤖",
-    url: "https://chatgpt.com/g/g-xxxxxx",
-    tags: ["AI", "投研"],
-    status: "coming-soon",
-    pricing: "Free",
-    projectType: "AI Skill"
-  },
+  }
 ];
