@@ -54,8 +54,9 @@ export function getAllPosts(): BlogPost[] {
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
+  const decodedSlug = decodeURIComponent(slug);
   const posts = getAllPosts();
-  return posts.find((post) => post.slug === slug);
+  return posts.find((post) => post.slug === decodedSlug);
 }
 
 export function getAllTags(): string[] {
