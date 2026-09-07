@@ -73,7 +73,17 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-border pt-6 text-center text-xs text-muted">
-          © {new Date().getFullYear()} 探长 · nickszy.com · All rights reserved.
+          <p>© {new Date().getFullYear()} 探长 · nickszy.com · All rights reserved.</p>
+          <p className="mt-2">
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              浙ICP备2022032808号-1
+            </a>
+          </p>
         </div>
       </div>
     </footer>
