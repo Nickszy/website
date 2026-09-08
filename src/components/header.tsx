@@ -22,8 +22,7 @@ export function Header({ blogMetadata }: { blogMetadata?: BlogMetadata }) {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold">
-          <span className="text-accent">探长</span>
-          <span className="hidden text-muted sm:inline">· AI 实践主页</span>
+          <span className="text-accent">扑克牌冷藏室</span>
         </Link>
 
         {/* Desktop nav */}

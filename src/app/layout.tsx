@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://nickszy.com"),
   title: {
-    default: "探长的 AI 实践主页 | nickszy.com",
-    template: "%s | 探长的 AI 实践主页",
+    default: "扑克牌冷藏室",
+    template: "%s | 扑克牌冷藏室",
   },
   description: "探长 - AI开发者，关注投资理财、大模型应用与效率工具开发记录",
   keywords: ["投资", "理财", "AI", "独立开发", "大语言模型"],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "zh_CN",
-    siteName: "探长的 AI 实践主页",
+    siteName: "扑克牌冷藏室",
     url: "https://nickszy.com",
   },
 };
