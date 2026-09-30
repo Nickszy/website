@@ -92,16 +92,25 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
           </div>
           
           <div className="shrink-0">
-            <a
-              href={app.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-light sm:w-auto"
-            >
-              {app.projectType === "GitHub" ? "前往 GitHub" : 
-               app.projectType === "AI Skill" ? "开始对话" : "访问体验"}
-              <ExternalLink size={16} />
-            </a>
+            {app.url ? (
+              <a
+                href={app.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-light sm:w-auto"
+              >
+                {app.projectType === "GitHub" ? "前往 GitHub" : 
+                 app.projectType === "AI Skill" ? "开始对话" : "访问体验"}
+                <ExternalLink size={16} />
+              </a>
+            ) : (
+              <span
+                className="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-lg border border-dashed border-border px-6 py-3 text-sm font-medium text-muted sm:w-auto"
+                title={app.status === "coming-soon" ? "开发中，敬请期待" : "线上地址整理中，欢迎先看介绍"}
+              >
+                {app.status === "coming-soon" ? "即将上线 · 敬请期待" : "线上地址整理中"}
+              </span>
+            )}
           </div>
         </div>
       </div>

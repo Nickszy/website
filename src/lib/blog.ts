@@ -59,6 +59,34 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   return posts.find((post) => post.slug === decodedSlug);
 }
 
+export interface BlogSeries {
+  name: string;
+  count: number;
+  posts: BlogPost[];
+}
+
+export function getAllSeries(): BlogSeries[] {
+  const posts = getAllPosts();
+  const seriesMap = new Map<string, BlogPost[]>();
+
+  posts.forEach((post) => {
+    if (post.series) {
+      if (!seriesMap.has(post.series)) {
+        seriesMap.set(post.series, []);
+      }
+      seriesMap.get(post.series)!.push(post);
+    }
+  });
+
+  return Array.from(seriesMap.entries())
+    .map(([name, seriesPosts]) => ({
+      name,
+      count: seriesPosts.length,
+      posts: seriesPosts,
+    }))
+    .sort((a, b) => b.count - a.count);
+}
+
 export function getAllTags(): string[] {
   const posts = getAllPosts();
   const tagSet = new Set<string>();

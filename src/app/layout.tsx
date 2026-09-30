@@ -31,22 +31,19 @@ export const metadata: Metadata = {
   },
 };
 
-import { getBlogMetadata } from "@/lib/blog";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const blogMetadata = getBlogMetadata();
-
   return (
     <html
       lang="zh-CN"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Header blogMetadata={blogMetadata} />
+        <Header />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
